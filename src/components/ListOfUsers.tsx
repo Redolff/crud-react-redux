@@ -9,17 +9,12 @@ import {
 	TableRow,
 	Title,
 } from "@tremor/react";
-import { useAppDispatch, useAppSelector } from "../hooks/store";
-import { UserId, deleteUserById } from "../store/users/slices";
+import { useAppSelector } from "../hooks/store";
+import { useUsersActions } from "../hooks/useUsersActions";
 
 export const ListOfUsers = () => {
 	const users = useAppSelector((state) => state.users);
-
-	// Hacerlo en un custom hook
-	const dispatch = useAppDispatch();
-	const handleRemoveUser = (id: UserId) => {
-		dispatch(deleteUserById(id));
-	};
+	const { removeUser } = useUsersActions();
 
 	return (
 		<>
@@ -78,10 +73,7 @@ export const ListOfUsers = () => {
 											/>
 										</svg>
 									</button>
-									<button
-										type="button"
-										onClick={() => handleRemoveUser(user.id)}
-									>
+									<button type="button" onClick={() => removeUser(user.id)}>
 										<svg
 											aria-label="Remove element"
 											xmlns="http://www.w3.org/2000/svg"
