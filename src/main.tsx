@@ -3,10 +3,13 @@ import App from "./App.tsx";
 import "./index.css";
 
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 import { store } from "./store/index.ts";
 
 createRoot(document.getElementById("root") as HTMLElement).render(
 	<Provider store={store}>
-		<App />
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
 	</Provider>,
 );

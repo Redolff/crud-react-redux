@@ -11,7 +11,7 @@ export const CreateNewUser = () => {
 
 		setResult(null);
 
-		const form = event.target;
+		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
 
 		const name = formData.get("name") as string;
@@ -29,7 +29,13 @@ export const CreateNewUser = () => {
 	};
 
 	return (
-		<Card style={{ marginTop: "16px" }}>
+		<Card
+			style={{
+				marginTop: "16px",
+				border: "solid 1px #eee",
+				boxShadow: "3px 3px 3px 3px rgb(0,0,0,0.9)",
+			}}
+		>
 			<Title> Create new user </Title>
 
 			<form onSubmit={handleSubmit} className="">
@@ -50,7 +56,7 @@ export const CreateNewUser = () => {
 					<span>
 						{result === "ko" && (
 							<Badge style={{ marginLeft: "8px", color: "red" }}>
-								Error con los campo
+								Error con los campos
 							</Badge>
 						)}
 					</span>

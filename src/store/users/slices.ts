@@ -48,6 +48,7 @@ export const usersSlice = createSlice({
 	reducers: {
 		addNewUser: (state, action: PayloadAction<User>) => {
 			const id = crypto.randomUUID();
+			console.log({ action });
 			return [
 				...state,
 				{
@@ -56,9 +57,21 @@ export const usersSlice = createSlice({
 				},
 			];
 		},
-		editUserById: (state, action: PayloadAction<UserId>) => {
-			const id = action.payload;
+
+		editUserById: (state, action: PayloadAction<User>) => {
+			const { id, name, email, github } = action.payload;
+			const index = state.findIndex((user) => user.id === id);
+
+			if (index !== -1) {
+				state[index] = {
+					...state[index], // Mantenemos los valores actuales del usuario
+					name: name || state[index].name, // Actualizamos solo si hay un nuevo valor
+					email: email || state[index].email,
+					github: github || state[index].github,
+				};
+			}
 		},
+
 		deleteUserById: (state, action: PayloadAction<UserId>) => {
 			const id = action.payload;
 			return state.filter((user) => user.id !== id);
@@ -76,4 +89,5 @@ export const usersSlice = createSlice({
 
 export default usersSlice.reducer;
 
-export const { addNewUser, deleteUserById, rollbackUser } = usersSlice.actions;
+export const { addNewUser, editUserById, deleteUserById, rollbackUser } =
+	usersSlice.actions;
