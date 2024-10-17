@@ -18,8 +18,15 @@ export const CreateNewUser = () => {
 		const email = formData.get("email") as string;
 		const github = formData.get("github") as string;
 
+		//Validaciones
+		const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!name || !email || !github) {
-			//Validaciones
+			return setResult("ko");
+		}
+		if (name.length < 3) {
+			return setResult("ko");
+		}
+		if (!regex.test(email)) {
 			return setResult("ko");
 		}
 

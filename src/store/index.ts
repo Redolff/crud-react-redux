@@ -17,7 +17,6 @@ const putDatabaseMiddleware: Middleware = (store) => (next) => (action) => {
 
 	if (type === "user/editUserById") {
 		const { id } = payload;
-		console.log(id);
 		fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
 			method: "PUT",
 		})
@@ -48,7 +47,7 @@ const postDatabaseMiddleware: Middleware = (store) => (next) => (action) => {
 		})
 			.then((res) => {
 				if (res.ok) {
-					toast.success(`Usuario ${newUser.name} agregado correctamente`);
+					toast.success(`Usuario ${newUser.email} agregado correctamente`);
 				}
 			})
 			.catch((error) => {

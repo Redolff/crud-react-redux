@@ -1,4 +1,4 @@
-import { Button, Card, TextInput, Title } from "@tremor/react";
+import { Badge, Button, Card, TextInput, Title } from "@tremor/react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../hooks/store";
@@ -16,11 +16,14 @@ export const EditUser = () => {
 		email: usuarioId?.email,
 		github: usuarioId?.github,
 	});
+	const [error, setError] = useState(null);
 
 	const { editUser } = useUsersActions();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+
+		setError(null);
 
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
@@ -29,31 +32,26 @@ export const EditUser = () => {
 		const email = formData.get("email");
 		const github = formData.get("github");
 
+		//Validaciones para el form
+		const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		//Validar que no sean vacios
+		if (!name || !email || !github) {
+			setError("Los campos son incompletos");
+			return;
+		}
+		//Validar que sea un email el input
+		if (!regex.test(email)) {
+			setError("El email no es valido");
+			return;
+		}
+
 		if (id) {
 			editUser(id, { name, email, github });
+			setError(null);
 			navigate("/");
 		}
+		setError(null);
 	};
-
-	/*useEffect(() => {
-		const API = `http://localhost:5173/update/${id}`;
-		fetch(API)
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error("Error fetch response API");
-				}
-				console.log({ response });
-				setValues({
-					...values,
-					name: response.data.name,
-					email: response.data.email,
-					github: response.data.github,
-				});
-			})
-			.catch((error) => {
-				console.log("Error", error);
-			});
-	}, [id]); */
 
 	return (
 		<Card
@@ -88,6 +86,11 @@ export const EditUser = () => {
 					<Button type="submit" style={{ marginTop: "16px" }}>
 						Editar usuario
 					</Button>
+					<span>
+						{error && (
+							<Badge style={{ marginLeft: "8px", color: "red" }}>{error}</Badge>
+						)}
+					</span>
 				</div>
 			</form>
 		</Card>
