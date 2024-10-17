@@ -48,7 +48,6 @@ export const usersSlice = createSlice({
 	reducers: {
 		addNewUser: (state, action: PayloadAction<User>) => {
 			const id = crypto.randomUUID();
-			console.log({ action });
 			return [
 				...state,
 				{
@@ -57,7 +56,6 @@ export const usersSlice = createSlice({
 				},
 			];
 		},
-
 		editUserById: (state, action: PayloadAction<User>) => {
 			const { id, name, email, github } = action.payload;
 			const index = state.findIndex((user) => user.id === id);
@@ -71,7 +69,6 @@ export const usersSlice = createSlice({
 				};
 			}
 		},
-
 		deleteUserById: (state, action: PayloadAction<UserId>) => {
 			const id = action.payload;
 			return state.filter((user) => user.id !== id);

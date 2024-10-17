@@ -28,11 +28,9 @@ export const EditUser = () => {
 		const name = formData.get("name");
 		const email = formData.get("email");
 		const github = formData.get("github");
-		console.log({ name, email, github });
 
 		if (id) {
 			editUser(id, { name, email, github });
-			console.log("Usuario editado");
 			navigate("/");
 		}
 	};

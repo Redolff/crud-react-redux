@@ -8,7 +8,54 @@ const persistanceLocalStorageMiddleware: Middleware =
 		localStorage.setItem("__redux__state__", JSON.stringify(store.getState()));
 	};
 
-// Hacerlo con el POST, y el EDIT al Middleware
+// Hacerlo con el EDIT al Middleware
+
+const putDatabaseMiddleware: Middleware = (store) => (next) => (action) => {
+	const { type, payload } = action;
+
+	next(action);
+
+	if (type === "user/editUserById") {
+		const { id } = payload;
+		console.log(id);
+		fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+			method: "PUT",
+		})
+			.then((res) => {
+				if (res.ok) {
+					toast.success(`Usuario ${id} editado`);
+				}
+			})
+			.catch((error) => {
+				console.log("error", error);
+			});
+	}
+};
+
+const postDatabaseMiddleware: Middleware = (store) => (next) => (action) => {
+	const { type, payload } = action;
+
+	next(action);
+
+	if (type === "user/addNewUser") {
+		const newUser = payload;
+		fetch(`https://jsonplaceholder.typicode.com/posts`, {
+			method: "POST",
+			headers: {
+				"Content-type": "application/json",
+			},
+			body: JSON.stringify(newUser),
+		})
+			.then((res) => {
+				if (res.ok) {
+					toast.success(`Usuario ${newUser.name} agregado correctamente`);
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+};
 
 const syncWithDatabase: Middleware = (store) => (next) => (action) => {
 	const { type, payload } = action;
@@ -50,6 +97,8 @@ export const store = configureStore({
 		getDefaultMiddleware().concat(
 			persistanceLocalStorageMiddleware,
 			syncWithDatabase,
+			postDatabaseMiddleware,
+			putDatabaseMiddleware,
 		),
 });
 
