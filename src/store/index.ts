@@ -1,14 +1,14 @@
 import { Middleware, configureStore } from "@reduxjs/toolkit";
 import { toast } from "sonner";
+import authReducer from "./auth/authSlice";
 import usersReducer from "./users/slices";
 
 const persistanceLocalStorageMiddleware: Middleware =
 	(store) => (next) => (action) => {
 		next(action);
 		localStorage.setItem("__redux__state__", JSON.stringify(store.getState()));
+		localStorage.setItem("__redux__auth__", JSON.stringify(store.getState()));
 	};
-
-// Hacerlo con el EDIT al Middleware
 
 const putDatabaseMiddleware: Middleware = (store) => (next) => (action) => {
 	const { type, payload } = action;
@@ -91,6 +91,7 @@ const syncWithDatabase: Middleware = (store) => (next) => (action) => {
 export const store = configureStore({
 	reducer: {
 		users: usersReducer,
+		auth: authReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(

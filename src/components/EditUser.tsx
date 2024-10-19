@@ -16,7 +16,7 @@ export const EditUser = () => {
 		email: usuarioId?.email,
 		github: usuarioId?.github,
 	});
-	const [error, setError] = useState(null);
+	const [error, setError] = useState<string | null>(null);
 
 	const { editUser } = useUsersActions();
 
