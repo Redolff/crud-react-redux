@@ -1,8 +1,6 @@
 import { Badge, Button, Divider, TextInput } from "@tremor/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../hooks/store";
-import { useAuthUsers } from "../hooks/useAuthUsers";
 
 const GoogleIcon = (props) => (
 	<svg fill="currentColor" viewBox="0 0 24 24" {...props}>
@@ -10,12 +8,9 @@ const GoogleIcon = (props) => (
 	</svg>
 );
 
-export default function Login() {
-	const { loginUser } = useAuthUsers();
+export default function Login({ users, loginUser }) {
 	const navigate = useNavigate();
 	const [error, setError] = useState<string | null>(null);
-	const users = useAppSelector((state) => state.auth.user);
-	console.log("users", users);
 
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
@@ -25,7 +20,6 @@ export default function Login() {
 
 		const email = formData.get("email");
 		const password = formData.get("password");
-
 		const existingUser = users.find(
 			(user) => user.email === email && user.password === password,
 		);
@@ -40,15 +34,13 @@ export default function Login() {
 			return;
 		}
 		if (!existingUser) {
-			setError("El usuario o email es incorrecto");
+			setError("El usuario no existe o es incorrecto");
 			return;
 		}
 
-		if (existingUser) {
-			console.log("Sesion iniciada");
-			loginUser({ email, password });
-			navigate("/");
-		}
+		console.log("Sesion iniciada");
+		loginUser({ email, password });
+		navigate("/");
 	};
 
 	return (
@@ -64,6 +56,7 @@ export default function Login() {
 		>
 			<div
 				style={{
+					backgroundColor: "#fff",
 					boxShadow: "3px 3px 3px 3px rgb(0,0,0,0.9)",
 					padding: "8px",
 				}}

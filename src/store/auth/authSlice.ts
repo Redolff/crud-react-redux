@@ -18,7 +18,14 @@ const DEFAULT_STATE = [
 ];
 
 interface AuthState {
-	user: {
+	users: {
+		id: number;
+		name: string;
+		email: string;
+		password: string;
+		role: "admin" | "user";
+	}[];
+	currentUser: {
 		id: number;
 		name: string;
 		email: string;
@@ -28,11 +35,24 @@ interface AuthState {
 	isAuthenticated: boolean;
 }
 
-const initialState: AuthState = {
-	user: DEFAULT_STATE,
-	isAuthenticated: false,
-};
 /*
+const initialState: AuthState = {
+	users: DEFAULT_STATE,
+	currentUser: null,
+	isAuthenticated: false,
+}; */
+
+/*
+const initialState: AuthState = {
+	user: (() => {
+		const persistedState = localStorage.getItem("__redux__auth__");
+		if (persistedState) {
+			return JSON.parse(persistedState).auth;
+		}
+		return DEFAULT_STATE; // Siempre inicializamos como array
+	})(),
+	isAuthenticated: false,
+}; */
 
 const initialState: AuthState = () => {
 	const persistedState = localStorage.getItem("__redux__auth__");
@@ -40,28 +60,76 @@ const initialState: AuthState = () => {
 		return JSON.parse(persistedState).auth;
 	}
 	return DEFAULT_STATE;
-};*/
+};
 
 export const authSlice = createSlice({
 	name: "auth",
 	initialState,
 	reducers: {
-		login: (state, action: PayloadAction<{ user: AuthState["user"] }>) => {
-			state.user = action.payload;
-			state.isAuthenticated = true;
+		login: (
+			state,
+			action: PayloadAction<{ email: string; password: string }>,
+		) => {
+			const { email, password } = action.payload;
+			const existingUser = state.users.find(
+				(user) => user.email === email && user.password === password,
+			);
 
-			localStorage.setItem("__redux__auth__", JSON.stringify(state));
+			if (existingUser) {
+				state.currentUser = {
+					id: existingUser.id,
+					name: existingUser.name,
+					email: existingUser.email,
+					password: existingUser.password,
+					role: existingUser.role,
+				};
+				state.isAuthenticated = true;
+			}
 		},
 		logout: (state) => {
-			state.user = null;
+			state.currentUser = null;
 			state.isAuthenticated = false;
-
-			localStorage.setItem("__redux__auth__", JSON.stringify(state));
 		},
-		register: (state, action: PayloadAction<{ user: AuthState["user"] }>) => {},
+		register: (
+			state,
+			action: PayloadAction<{
+				name: string;
+				email: string;
+				password: string;
+				repeatPassword: string;
+			}>,
+		) => {
+			const id = crypto.randomUUID();
+			const { name, email, password, repeatPassword } = action.payload;
+
+			const existingUser = state.users.find((user) => user.email === email);
+
+			const newCurrentUser = {
+				id,
+				name,
+				email,
+				password,
+				role: "user",
+			};
+
+			if (!existingUser && password === repeatPassword) {
+				state.users = [
+					...state.users,
+					{
+						id,
+						name,
+						email,
+						password,
+						role: "user",
+					},
+				];
+				state.currentUser = newCurrentUser;
+				state.isAuthenticated = true;
+			}
+		},
 	},
 });
 
 export default authSlice.reducer;
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, register } = authSlice.actions;

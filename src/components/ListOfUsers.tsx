@@ -16,19 +16,34 @@ import { useUsersActions } from "../hooks/useUsersActions";
 import { UserId } from "../store/users/slices";
 import { CreateNewUser } from "./CreateNewUser";
 
-export const ListOfUsers = () => {
+export const ListOfUsers = ({ currentUser }) => {
 	const navigate = useNavigate();
 	const users = useAppSelector((state) => state.users);
 	const { removeUser } = useUsersActions();
 
 	const handleRedirect = (id: UserId) => {
-		navigate(`/user/${id}`);
+		if (currentUser.role === "admin") {
+			navigate(`/user/${id}`);
+		} else {
+			console.log(
+				"El usuario no puede acceder a editar un user porque no es ADMIN",
+			);
+		}
+	};
+
+	const handleRemove = (id: UserId) => {
+		if (currentUser.role === "admin") {
+			removeUser(id);
+		} else {
+			console.log("El usuario no puede eliminar un user porque no es ADMIN");
+		}
 	};
 
 	return (
 		<>
 			<Card
 				style={{
+					backgroundColor: "#fff",
 					marginTop: "16px",
 					border: "solid 1px #eee",
 					boxShadow: "3px 3px 3px 3px rgb(0,0,0,0.9)",
@@ -88,7 +103,7 @@ export const ListOfUsers = () => {
 											/>
 										</svg>
 									</button>
-									<button type="button" onClick={() => removeUser(user.id)}>
+									<button type="button" onClick={() => handleRemove(user.id)}>
 										<svg
 											aria-label="Remove element"
 											xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +126,7 @@ export const ListOfUsers = () => {
 					</TableBody>
 				</Table>
 			</Card>
-			<CreateNewUser />
+			{currentUser.role === "admin" && <CreateNewUser />}
 		</>
 	);
 };

@@ -38,6 +38,7 @@ export const CreateNewUser = () => {
 	return (
 		<Card
 			style={{
+				backgroundColor: "#fff",
 				marginTop: "16px",
 				border: "solid 1px #eee",
 				boxShadow: "3px 3px 3px 3px rgb(0,0,0,0.9)",

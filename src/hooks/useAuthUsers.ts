@@ -1,8 +1,9 @@
-import { login, logout } from "../store/auth/authSlice";
+import { login, logout, register } from "../store/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "./store";
 
 export const useAuthUsers = () => {
-	const user = useAppSelector((state) => state.auth.user);
+	const users = useAppSelector((state) => state.auth.users);
+	const currentUser = useAppSelector((state) => state.auth.currentUser);
 	const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 	const dispatch = useAppDispatch();
 
@@ -10,13 +11,20 @@ export const useAuthUsers = () => {
 		dispatch(login({ email, password }));
 	};
 
+	const registerUser = ({ name, email, password, repeatPassword }) => {
+		dispatch(register({ name, email, password, repeatPassword }));
+	};
+
 	const logoutUser = () => {
 		dispatch(logout());
 	};
 
-	/*const registerUser = ({ name, email, password, repeatPassword }) => {
-		dispatch(register(name, email, password, repeatPassword));
-	};*/
-
-	return { user, isAuthenticated, loginUser, logoutUser /*registerUser*/ };
+	return {
+		users,
+		currentUser,
+		isAuthenticated,
+		loginUser,
+		logoutUser,
+		registerUser,
+	};
 };

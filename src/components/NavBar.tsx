@@ -1,38 +1,54 @@
-import { useAuthUsers } from "../hooks/useAuthUsers";
+import { useNavigate } from "react-router-dom";
+import "./NavBar.css";
 
-export const NavBar = () => {
-	const { isAuthenticated, logoutUser } = useAuthUsers();
-	console.log("isAuthenticated", isAuthenticated);
+export const NavBar = ({ isAuthenticated, currentUser, logoutUser }) => {
+	const navigate = useNavigate();
 
 	return (
-		<div
-			style={{
-				width: "100%",
-				backgroundColor: "lightblue",
-			}}
-		>
-			<h1 style={{ fontSize: "24px", color: "black" }}> Crud React Redux </h1>
-			<ul
-				style={{
-					display: "flex",
-					flexDirection: "row",
-					justifyContent: "flex-end",
-					gap: "16px",
-					marginRight: "4px",
-				}}
-			>
+		<nav className="navbar">
+			<div className="navbar-logo">
+				<h1> Crud React Redux </h1>
+				<span> Logo CRUD </span>
+			</div>
+			<div className="navbar-search">
+				<input type="text" placeholder="Buscar github..." />
+				<button onClick={() => console.log("buscar")}> Buscar </button>
+			</div>
+
+			<div className="navbar-menu">
 				{isAuthenticated ? (
-					<h3>
-						<a href={"/login"} onClick={logoutUser}>
+					<>
+						<img
+							style={{
+								width: "32px",
+								height: "32px",
+								borderRadius: "50%",
+							}}
+							src={`https://unavatar.io/github/${currentUser.name}`}
+							alt={`${currentUser.name}`}
+						/>
+						<span style={{ marginRight: "8px" }}> {currentUser.name} </span>
+						<button className="navbar-button login" onClick={logoutUser}>
 							Cerrar sesion
-						</a>
-					</h3>
+						</button>
+					</>
 				) : (
-					<h3>
-						<a href={"/login"}>Iniciar sesion</a>
-					</h3>
+					<>
+						<button
+							className="navbar-button login"
+							onClick={() => navigate("/login")}
+						>
+							Iniciar sesion
+						</button>
+						<button
+							className="navbar-button register"
+							onClick={() => navigate("/register")}
+						>
+							Registrate
+						</button>
+					</>
 				)}
-			</ul>
-		</div>
+			</div>
+		</nav>
 	);
 };

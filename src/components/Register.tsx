@@ -1,10 +1,10 @@
 import { Badge, Button, Divider, TextInput } from "@tremor/react";
 import { useState } from "react";
-import { useAppSelector } from "../hooks/store";
+import { useNavigate } from "react-router-dom";
 
-export const Register = () => {
+export const Register = ({ registerUser }) => {
+	const navigate = useNavigate();
 	const [error, setError] = useState<string | null>(null);
-	const users = useAppSelector((state) => state.auth);
 
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
@@ -17,13 +17,7 @@ export const Register = () => {
 		const password = formData.get("password");
 		const repeatPassword = formData.get("repeatPassword");
 
-		const existingUser = users.find((x) => x.email === email);
-
 		const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		if (existingUser) {
-			setError("El usuario ya existe");
-			return;
-		}
 		if (!name || !email || !password || !repeatPassword) {
 			setError("Los campos son invalidos");
 			return;
@@ -37,7 +31,9 @@ export const Register = () => {
 			return;
 		}
 
-		//registerUser({ name, email, password, repeatPassword });
+		console.log("Usuario creado");
+		registerUser({ name, email, password, repeatPassword });
+		navigate("/");
 	};
 
 	return (
@@ -53,6 +49,7 @@ export const Register = () => {
 		>
 			<div
 				style={{
+					backgroundColor: "#fff",
 					boxShadow: "3px 3px 3px 3px rgb(0,0,0,0.9)",
 					padding: "8px",
 				}}

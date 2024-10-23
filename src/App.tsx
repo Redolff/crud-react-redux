@@ -6,26 +6,48 @@ import { ListOfUsers } from "./components/ListOfUsers";
 import Login from "./components/Login";
 import { NavBar } from "./components/NavBar";
 import { Register } from "./components/Register";
-import { useAppSelector } from "./hooks/store";
 import { useAuthUsers } from "./hooks/useAuthUsers";
 
 function App() {
-	const { isAuthenticated } = useAuthUsers();
-	const users = useAppSelector((state) => state.auth.user);
+	const {
+		users,
+		currentUser,
+		isAuthenticated,
+		loginUser,
+		logoutUser,
+		registerUser,
+	} = useAuthUsers();
+
+	console.log("isAuthenticated", isAuthenticated);
+	console.log("currentUser", { currentUser });
+	console.log("users", { users });
 
 	return (
 		<>
-			<NavBar />
+			<NavBar
+				isAuthenticated={isAuthenticated}
+				currentUser={currentUser}
+				logoutUser={logoutUser}
+			/>
 			<Routes>
 				{!isAuthenticated ? (
 					<>
-						<Route path="/login" element={<Login />} />
-						<Route path="/register" element={<Register />} />
+						<Route
+							path="/login"
+							element={<Login loginUser={loginUser} users={users} />}
+						/>
+						<Route
+							path="/register"
+							element={<Register registerUser={registerUser} />}
+						/>
 						<Route path="*" element={<Navigate to="/login" />} />
 					</>
 				) : (
 					<>
-						<Route path="/" element={<ListOfUsers />} />
+						<Route
+							path="/"
+							element={<ListOfUsers currentUser={currentUser} />}
+						/>
 						<Route path="/user/:id" element={<EditUser />} />
 						<Route path="*" element={<Navigate to={"/"} />} />
 					</>
