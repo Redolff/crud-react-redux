@@ -1,6 +1,7 @@
 import { Badge, Button, Divider, TextInput } from "@tremor/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthUsers } from "../hooks/useAuthUsers";
 
 const GoogleIcon = (props) => (
 	<svg fill="currentColor" viewBox="0 0 24 24" {...props}>
@@ -8,8 +9,9 @@ const GoogleIcon = (props) => (
 	</svg>
 );
 
-export default function Login({ users, loginUser }) {
+export default function Login() {
 	const navigate = useNavigate();
+	const { users, loginUser } = useAuthUsers();
 	const [error, setError] = useState<string | null>(null);
 
 	const handleSubmit = (event: React.FormEvent) => {

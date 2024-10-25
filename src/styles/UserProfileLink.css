@@ -1,0 +1,27 @@
+.navbar-link-perfil {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+.navbar-link-perfil:hover {
+    background-color: #5D6D7E;
+    box-shadow: rgba(0, 0, 0, 0.9);
+}
+
+.navbar-button {
+    padding: 10px 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login {
+    background-color: #2196F3;
+    color: white;
+}

@@ -30,6 +30,7 @@
     border-radius: 4px;
     border: none;
     outline: none;
+    color: #000000;
 }
 
 .navbar-search button {
@@ -60,6 +61,7 @@
     cursor: pointer;
     font-size: 16px;
 }
+
 
 .login {
     background-color: #2196F3;

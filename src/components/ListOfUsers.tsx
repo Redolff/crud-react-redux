@@ -1,5 +1,7 @@
+import { RiArrowLeftSLine, RiArrowRightSLine } from "@remixicon/react";
 import {
 	Badge,
+	Button,
 	Card,
 	Table,
 	TableBody,
@@ -9,25 +11,54 @@ import {
 	TableRow,
 	Title,
 } from "@tremor/react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 import { useAppSelector } from "../hooks/store";
+import { useAuthUsers } from "../hooks/useAuthUsers";
 import { useUsersActions } from "../hooks/useUsersActions";
 import { UserId } from "../store/users/slices";
 import { CreateNewUser } from "./CreateNewUser";
 
-export const ListOfUsers = ({ currentUser }) => {
+export const ListOfUsers = ({ searchTerm }) => {
 	const navigate = useNavigate();
+	const { currentUser } = useAuthUsers();
 	const users = useAppSelector((state) => state.users);
 	const { removeUser } = useUsersActions();
+	const [error, setError] = useState<string | null>(null);
+	const [currentPage, setCurrentPage] = useState(1);
+	const usersPerPage = 5;
+
+	// Filtrar usuario por search
+	const filteredUsers = users.filter((user) =>
+		user.github.toLowerCase().startsWith(searchTerm.toLowerCase()),
+	);
+
+	const totalPages = Math.ceil(users.length / usersPerPage); // Calcular el número total de páginas
+	const indexOfLastUser = currentPage * usersPerPage;
+	const indexOfFirstUser = indexOfLastUser - usersPerPage;
+	const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+
+	const goToNextPage = () => {
+		if (currentPage < totalPages) {
+			setCurrentPage(currentPage + 1);
+		}
+	};
+
+	const goToPreviousPage = () => {
+		if (currentPage > 1) {
+			setCurrentPage(currentPage - 1);
+		}
+	};
 
 	const handleRedirect = (id: UserId) => {
 		if (currentUser.role === "admin") {
 			navigate(`/user/${id}`);
 		} else {
-			console.log(
-				"El usuario no puede acceder a editar un user porque no es ADMIN",
+			setError(
+				"El usuario no puede acceder a editar a un user porque no es ADMIN",
 			);
+			return;
 		}
 	};
 
@@ -35,7 +66,8 @@ export const ListOfUsers = ({ currentUser }) => {
 		if (currentUser.role === "admin") {
 			removeUser(id);
 		} else {
-			console.log("El usuario no puede eliminar un user porque no es ADMIN");
+			setError("El usuario no puede eliminar a un user porque no es ADMIN");
+			return;
 		}
 	};
 
@@ -64,7 +96,7 @@ export const ListOfUsers = ({ currentUser }) => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{users.map((user) => (
+						{currentUsers.map((user) => (
 							<TableRow
 								key={user.id}
 								className="even:bg-tremor-background-muted even:dark:bg-dark-tremor-background-muted"
@@ -125,6 +157,56 @@ export const ListOfUsers = ({ currentUser }) => {
 						))}
 					</TableBody>
 				</Table>
+				<span>
+					{error && (
+						<Badge
+							style={{
+								display: "flex",
+								justifyContent: "flex-start",
+								marginTop: "8px",
+								color: "red",
+							}}
+						>
+							{error}
+						</Badge>
+					)}
+				</span>
+				<div className="mt-10 flex items-center justify-between">
+					<p className="text-tremor-default tabular-nums text-tremor-content dark:text-dark-tremor-content">
+						Page
+						<span className="font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+							{currentPage}
+						</span>
+						/
+						<span className="font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+							{totalPages}
+						</span>
+					</p>
+					<div className="inline-flex items-center rounded-tremor-small shadow-tremor-input dark:shadow-dark-tremor-input">
+						<Button
+							position="left"
+							onClick={goToPreviousPage}
+							disabled={currentPage === 1}
+						>
+							<span className="sr-only">Previous</span>
+							<RiArrowLeftSLine
+								className="size-5 text-tremor-content-emphasis group-hover:text-tremor-content-strong dark:text-dark-tremor-content-emphasis group-hover:dark:text-dark-tremor-content-strong"
+								aria-hidden={true}
+							/>
+						</Button>
+						<Button
+							position="right"
+							onClick={goToNextPage}
+							disabled={currentPage === totalPages}
+						>
+							<span className="sr-only">Next</span>
+							<RiArrowRightSLine
+								className="size-5 text-tremor-content-emphasis group-hover:text-tremor-content-strong dark:text-dark-tremor-content-emphasis group-hover:dark:text-dark-tremor-content-strong"
+								aria-hidden={true}
+							/>
+						</Button>
+					</div>
+				</div>
 			</Card>
 			{currentUser.role === "admin" && <CreateNewUser />}
 		</>

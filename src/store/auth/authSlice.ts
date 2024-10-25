@@ -42,18 +42,6 @@ const initialState: AuthState = {
 	isAuthenticated: false,
 }; */
 
-/*
-const initialState: AuthState = {
-	user: (() => {
-		const persistedState = localStorage.getItem("__redux__auth__");
-		if (persistedState) {
-			return JSON.parse(persistedState).auth;
-		}
-		return DEFAULT_STATE; // Siempre inicializamos como array
-	})(),
-	isAuthenticated: false,
-}; */
-
 const initialState: AuthState = () => {
 	const persistedState = localStorage.getItem("__redux__auth__");
 	if (persistedState) {

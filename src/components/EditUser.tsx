@@ -94,6 +94,17 @@ export const EditUser = () => {
 					</span>
 				</div>
 			</form>
+			<div>
+				<a
+					style={{
+						marginTop: "16px",
+						textDecoration: "underline",
+					}}
+					href="/"
+				>
+					Volver al home
+				</a>
+			</div>
 		</Card>
 	);
 };

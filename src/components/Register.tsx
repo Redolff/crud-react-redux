@@ -1,9 +1,11 @@
 import { Badge, Button, Divider, TextInput } from "@tremor/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthUsers } from "../hooks/useAuthUsers";
 
-export const Register = ({ registerUser }) => {
+export const Register = () => {
 	const navigate = useNavigate();
+	const { users, registerUser } = useAuthUsers();
 	const [error, setError] = useState<string | null>(null);
 
 	const handleSubmit = (event: React.FormEvent) => {
@@ -16,6 +18,8 @@ export const Register = ({ registerUser }) => {
 		const email = formData.get("email");
 		const password = formData.get("password");
 		const repeatPassword = formData.get("repeatPassword");
+
+		const existingUser = users.find((user) => user.email === email);
 
 		const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		if (!name || !email || !password || !repeatPassword) {
@@ -30,10 +34,16 @@ export const Register = ({ registerUser }) => {
 			setError("Las contraseñas no coinciden");
 			return;
 		}
+		if (existingUser) {
+			setError("El usuario ya existe");
+			return;
+		}
 
-		console.log("Usuario creado");
-		registerUser({ name, email, password, repeatPassword });
-		navigate("/");
+		if (!existingUser) {
+			console.log("Usuario creado");
+			registerUser({ name, email, password, repeatPassword });
+			navigate("/");
+		}
 	};
 
 	return (

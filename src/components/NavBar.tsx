@@ -1,53 +1,35 @@
-import { useNavigate } from "react-router-dom";
-import "./NavBar.css";
+import { useAuthUsers } from "../hooks/useAuthUsers";
+import "../styles/NavBar.css";
+import { AuthButtons } from "./AuthButtons";
+import { UserProfileLink } from "./UserProfileLink";
 
-export const NavBar = ({ isAuthenticated, currentUser, logoutUser }) => {
-	const navigate = useNavigate();
+export const NavBar = ({ searchTerm, setSearchTerm }) => {
+	const { isAuthenticated } = useAuthUsers();
+
+	const handleInputChange = (e: HTMLFormElement) => {
+		setSearchTerm(e.target.value);
+	};
 
 	return (
 		<nav className="navbar">
 			<div className="navbar-logo">
-				<h1> Crud React Redux </h1>
+				<h1>
+					<a href="/"> Crud React Redux </a>
+				</h1>
 				<span> Logo CRUD </span>
 			</div>
 			<div className="navbar-search">
-				<input type="text" placeholder="Buscar github..." />
-				<button onClick={() => console.log("buscar")}> Buscar </button>
+				<input
+					type="text"
+					value={searchTerm}
+					onChange={handleInputChange}
+					placeholder="Buscar github..."
+				/>
+				<button type="submit"> Buscar </button>
 			</div>
 
 			<div className="navbar-menu">
-				{isAuthenticated ? (
-					<>
-						<img
-							style={{
-								width: "32px",
-								height: "32px",
-								borderRadius: "50%",
-							}}
-							src={`https://unavatar.io/github/${currentUser.name}`}
-							alt={`${currentUser.name}`}
-						/>
-						<span style={{ marginRight: "8px" }}> {currentUser.name} </span>
-						<button className="navbar-button login" onClick={logoutUser}>
-							Cerrar sesion
-						</button>
-					</>
-				) : (
-					<>
-						<button
-							className="navbar-button login"
-							onClick={() => navigate("/login")}
-						>
-							Iniciar sesion
-						</button>
-						<button
-							className="navbar-button register"
-							onClick={() => navigate("/register")}
-						>
-							Registrate
-						</button>
-					</>
-				)}
+				{isAuthenticated ? <UserProfileLink /> : <AuthButtons />}
 			</div>
 		</nav>
 	);
