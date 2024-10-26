@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
 import "./App.css";
@@ -11,16 +10,13 @@ import { Register } from "./components/Register";
 import { useAuthUsers } from "./hooks/useAuthUsers";
 
 function App() {
-	const [searchTerm, setSearchTerm] = useState("");
-	const { users, currentUser, isAuthenticated } = useAuthUsers();
+	const { users, isAuthenticated } = useAuthUsers();
 
-	console.log("isAuthenticated", isAuthenticated);
-	console.log("currentUser", { currentUser });
 	console.log("users", { users });
 
 	return (
 		<>
-			<NavBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+			<NavBar />
 			<Routes>
 				{!isAuthenticated ? (
 					<>
@@ -30,7 +26,7 @@ function App() {
 					</>
 				) : (
 					<>
-						<Route path="/" element={<ListOfUsers searchTerm={searchTerm} />} />
+						<Route path="/" element={<ListOfUsers />} />
 						<Route path="/perfil" element={<PerfilAccount />} />
 						<Route path="/user/:id" element={<EditUser />} />
 						<Route path="*" element={<Navigate to={"/"} />} />

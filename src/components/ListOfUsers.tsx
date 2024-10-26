@@ -16,40 +16,28 @@ import { useNavigate } from "react-router-dom";
 import "../App.css";
 import { useAppSelector } from "../hooks/store";
 import { useAuthUsers } from "../hooks/useAuthUsers";
+import { usePagination } from "../hooks/usePagination";
+import { useSearch } from "../hooks/useSearch";
 import { useUsersActions } from "../hooks/useUsersActions";
 import { UserId } from "../store/users/slices";
 import { CreateNewUser } from "./CreateNewUser";
 
-export const ListOfUsers = ({ searchTerm }) => {
+export const ListOfUsers = () => {
 	const navigate = useNavigate();
 	const { currentUser } = useAuthUsers();
 	const users = useAppSelector((state) => state.users);
 	const { removeUser } = useUsersActions();
 	const [error, setError] = useState<string | null>(null);
-	const [currentPage, setCurrentPage] = useState(1);
-	const usersPerPage = 5;
-
-	// Filtrar usuario por search
-	const filteredUsers = users.filter((user) =>
-		user.github.toLowerCase().startsWith(searchTerm.toLowerCase()),
-	);
-
-	const totalPages = Math.ceil(users.length / usersPerPage); // Calcular el número total de páginas
-	const indexOfLastUser = currentPage * usersPerPage;
-	const indexOfFirstUser = indexOfLastUser - usersPerPage;
+	const { filteredUsers } = useSearch();
+	const {
+		currentPage,
+		totalPages,
+		indexOfFirstUser,
+		indexOfLastUser,
+		nextPage,
+		previousPage,
+	} = usePagination();
 	const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
-
-	const goToNextPage = () => {
-		if (currentPage < totalPages) {
-			setCurrentPage(currentPage + 1);
-		}
-	};
-
-	const goToPreviousPage = () => {
-		if (currentPage > 1) {
-			setCurrentPage(currentPage - 1);
-		}
-	};
 
 	const handleRedirect = (id: UserId) => {
 		if (currentUser.role === "admin") {
@@ -185,7 +173,7 @@ export const ListOfUsers = ({ searchTerm }) => {
 					<div className="inline-flex items-center rounded-tremor-small shadow-tremor-input dark:shadow-dark-tremor-input">
 						<Button
 							position="left"
-							onClick={goToPreviousPage}
+							onClick={previousPage}
 							disabled={currentPage === 1}
 						>
 							<span className="sr-only">Previous</span>
@@ -196,7 +184,7 @@ export const ListOfUsers = ({ searchTerm }) => {
 						</Button>
 						<Button
 							position="right"
-							onClick={goToNextPage}
+							onClick={nextPage}
 							disabled={currentPage === totalPages}
 						>
 							<span className="sr-only">Next</span>

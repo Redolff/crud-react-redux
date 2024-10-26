@@ -1,6 +1,8 @@
 import { Middleware, configureStore } from "@reduxjs/toolkit";
 import { toast } from "sonner";
 import authReducer from "./auth/authSlice";
+import paginationReducer from "./pagination/paginationSlice";
+import searchReducer from "./search/searchSlice";
 import usersReducer from "./users/slices";
 
 const persistanceLocalStorageMiddleware: Middleware =
@@ -92,6 +94,8 @@ export const store = configureStore({
 	reducer: {
 		users: usersReducer,
 		auth: authReducer,
+		search: searchReducer,
+		pagination: paginationReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(

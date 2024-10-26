@@ -35,13 +35,6 @@ interface AuthState {
 	isAuthenticated: boolean;
 }
 
-/*
-const initialState: AuthState = {
-	users: DEFAULT_STATE,
-	currentUser: null,
-	isAuthenticated: false,
-}; */
-
 const initialState: AuthState = () => {
 	const persistedState = localStorage.getItem("__redux__auth__");
 	if (persistedState) {

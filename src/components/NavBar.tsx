@@ -1,14 +1,12 @@
 import { useAuthUsers } from "../hooks/useAuthUsers";
+import { useSearch } from "../hooks/useSearch";
 import "../styles/NavBar.css";
 import { AuthButtons } from "./AuthButtons";
 import { UserProfileLink } from "./UserProfileLink";
 
-export const NavBar = ({ searchTerm, setSearchTerm }) => {
+export const NavBar = (/*{ search, setSearch }*/) => {
 	const { isAuthenticated } = useAuthUsers();
-
-	const handleInputChange = (e: HTMLFormElement) => {
-		setSearchTerm(e.target.value);
-	};
+	const { search, handleInputChange } = useSearch();
 
 	return (
 		<nav className="navbar">
@@ -21,7 +19,7 @@ export const NavBar = ({ searchTerm, setSearchTerm }) => {
 			<div className="navbar-search">
 				<input
 					type="text"
-					value={searchTerm}
+					value={search}
 					onChange={handleInputChange}
 					placeholder="Buscar github..."
 				/>
