@@ -1,4 +1,4 @@
-import { Middleware, configureStore } from "@reduxjs/toolkit";
+import { Middleware, PayloadAction, configureStore } from "@reduxjs/toolkit";
 import { toast } from "sonner";
 import authReducer from "./auth/authSlice";
 import paginationReducer from "./pagination/paginationSlice";
@@ -13,12 +13,10 @@ const persistanceLocalStorageMiddleware: Middleware =
 	};
 
 const putDatabaseMiddleware: Middleware = (store) => (next) => (action) => {
-	const { type, payload } = action;
-
 	next(action);
 
-	if (type === "user/editUserById") {
-		const { id } = payload;
+	if ((action as PayloadAction<{ id: string }>).type === "user/editUserById") {
+		const { id } = (action as PayloadAction<{ id: string }>).payload;
 		fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
 			method: "PUT",
 		})
@@ -34,12 +32,11 @@ const putDatabaseMiddleware: Middleware = (store) => (next) => (action) => {
 };
 
 const postDatabaseMiddleware: Middleware = (store) => (next) => (action) => {
-	const { type, payload } = action;
-
 	next(action);
 
-	if (type === "user/addNewUser") {
-		const newUser = payload;
+	if ((action as PayloadAction<{ email: string }>).type === "user/addNewUser") {
+		const newUser = (action as PayloadAction<{ email: string }>).payload;
+		// rome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
 		fetch(`https://jsonplaceholder.typicode.com/posts`, {
 			method: "POST",
 			headers: {
@@ -59,14 +56,14 @@ const postDatabaseMiddleware: Middleware = (store) => (next) => (action) => {
 };
 
 const syncWithDatabase: Middleware = (store) => (next) => (action) => {
-	const { type, payload } = action;
-
 	const previousState = store.getState();
 
 	next(action);
 
-	if (type === "user/deleteUserById") {
-		const userIdToRemove = payload;
+	if (
+		(action as PayloadAction<{ id: string }>).type === "user/deleteUserById"
+	) {
+		const userIdToRemove = (action as PayloadAction<{ id: string }>).payload;
 		/*const userToRemove = previousState.users.find(
 			(user) => user.id === userIdToRemove,
 		); */

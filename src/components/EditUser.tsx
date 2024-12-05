@@ -26,7 +26,7 @@ export const EditUser = () => {
 		const formData = new FormData(form);
 
 		const name = formData.get("name");
-		const email = formData.get("email");
+		const email = formData.get("email") as string;
 		const github = formData.get("github");
 
 		//Validaciones para el form

@@ -9,7 +9,7 @@ export const PerfilAccount = () => {
 		<div className="profile-container">
 			<img
 				className="profile-picture"
-				src={`https://unavatar.io/github/${currentUser.github}`}
+				src={`https://unavatar.io/github/${currentUser?.github}`}
 				alt={"Github profile"}
 			/>
 			<h1 className="profile-name"> {currentUser?.name} </h1>

@@ -38,7 +38,7 @@ export const ListOfUsers = () => {
 	const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
 	const handleRedirect = (id: UserId) => {
-		if (currentUser.role === "admin") {
+		if (currentUser?.role === "admin") {
 			navigate(`/user/${id}`);
 		} else {
 			setError(
@@ -49,7 +49,7 @@ export const ListOfUsers = () => {
 	};
 
 	const handleRemove = (id: UserId) => {
-		if (currentUser.role === "admin") {
+		if (currentUser?.role === "admin") {
 			removeUser(id);
 		} else {
 			setError("El usuario no puede eliminar a un user porque no es ADMIN");
@@ -105,6 +105,7 @@ export const ListOfUsers = () => {
 								<TableCell>{user.github}</TableCell>
 								<TableCell>
 									<button type="button" onClick={() => handleRedirect(user.id)}>
+										{/* rome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
 										<svg
 											aria-label="Edit element"
 											xmlns="http://www.w3.org/2000/svg"
@@ -122,6 +123,7 @@ export const ListOfUsers = () => {
 										</svg>
 									</button>
 									<button type="button" onClick={() => handleRemove(user.id)}>
+										{/* rome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
 										<svg
 											aria-label="Remove element"
 											xmlns="http://www.w3.org/2000/svg"
@@ -169,22 +171,14 @@ export const ListOfUsers = () => {
 						</span>
 					</p>
 					<div className="inline-flex items-center rounded-tremor-small shadow-tremor-input dark:shadow-dark-tremor-input">
-						<Button
-							position="left"
-							onClick={previousPage}
-							disabled={currentPage === 1}
-						>
+						<Button onClick={previousPage} disabled={currentPage === 1}>
 							<span className="sr-only">Previous</span>
 							<RiArrowLeftSLine
 								className="size-5 text-tremor-content-emphasis group-hover:text-tremor-content-strong dark:text-dark-tremor-content-emphasis group-hover:dark:text-dark-tremor-content-strong"
 								aria-hidden={true}
 							/>
 						</Button>
-						<Button
-							position="right"
-							onClick={nextPage}
-							disabled={currentPage === totalPages}
-						>
+						<Button onClick={nextPage} disabled={currentPage === totalPages}>
 							<span className="sr-only">Next</span>
 							<RiArrowRightSLine
 								className="size-5 text-tremor-content-emphasis group-hover:text-tremor-content-strong dark:text-dark-tremor-content-emphasis group-hover:dark:text-dark-tremor-content-strong"
@@ -194,7 +188,7 @@ export const ListOfUsers = () => {
 					</div>
 				</div>
 			</Card>
-			{currentUser.role === "admin" && <CreateNewUser />}
+			{currentUser?.role === "admin" && <CreateNewUser />}
 		</>
 	);
 };

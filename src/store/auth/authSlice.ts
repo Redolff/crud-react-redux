@@ -18,7 +18,7 @@ const DEFAULT_AUTH_STATE = {
 };
 
 interface User {
-	id: number;
+	id: string;
 	name: string;
 	email: string;
 	github: string;
@@ -101,9 +101,8 @@ export const authSlice = createSlice({
 				email,
 				github,
 				password,
-				role: "user",
+				role: "user" as "user" | "admin",
 			};
-			console.log("newCurrentUser: ", newCurrentUser);
 
 			if (!existingUser && password === repeatPassword) {
 				state.users = [
@@ -114,7 +113,7 @@ export const authSlice = createSlice({
 						email,
 						github,
 						password,
-						role: "user",
+						role: "user" as "user" | "admin",
 					},
 				];
 				state.currentUser = newCurrentUser;

@@ -56,7 +56,7 @@ export const usersSlice = createSlice({
 				},
 			];
 		},
-		editUserById: (state, action: PayloadAction<User>) => {
+		editUserById: (state, action: PayloadAction<userWithId>) => {
 			const { id, name, email, github } = action.payload;
 			const index = state.findIndex((user) => user.id === id);
 

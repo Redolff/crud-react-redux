@@ -15,7 +15,7 @@ export const Register = () => {
 		const formData = new FormData(form);
 
 		const name = formData.get("name");
-		const email = formData.get("email");
+		const email = formData.get("email") as string;
 		const github = formData.get("github");
 		const password = formData.get("password");
 		const repeatPassword = formData.get("repeatPassword");
