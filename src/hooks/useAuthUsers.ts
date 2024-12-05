@@ -2,11 +2,11 @@ import { login, logout, register } from "../store/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "./store";
 
 interface Props {
-	name: string;
+	name?: string;
 	email: string;
 	password: string;
-	github: string;
-	repeatPassword: string;
+	github?: string;
+	repeatPassword?: string;
 }
 
 export const useAuthUsers = () => {

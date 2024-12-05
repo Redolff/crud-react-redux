@@ -19,7 +19,7 @@ const DEFAULT_AUTH_STATE = {
 
 interface User {
 	id: string;
-	name: string;
+	name?: string;
 	email: string;
 	github: string;
 	password: string;
@@ -77,11 +77,11 @@ export const authSlice = createSlice({
 		register: (
 			state,
 			action: PayloadAction<{
-				name: string;
+				name?: string;
 				email: string;
 				github?: string;
 				password: string;
-				repeatPassword: string;
+				repeatPassword?: string;
 			}>,
 		) => {
 			const id = crypto.randomUUID();

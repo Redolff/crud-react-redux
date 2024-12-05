@@ -14,11 +14,11 @@ export const Register = () => {
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
 
-		const name = formData.get("name");
+		const name = formData.get("name") as string;
 		const email = formData.get("email") as string;
-		const github = formData.get("github");
-		const password = formData.get("password");
-		const repeatPassword = formData.get("repeatPassword");
+		const github = formData.get("github") as string;
+		const password = formData.get("password") as string;
+		const repeatPassword = formData.get("repeatPassword") as string;
 
 		const existingUser = users.find((user) => user.email === email);
 

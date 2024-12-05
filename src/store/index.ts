@@ -12,7 +12,7 @@ const persistanceLocalStorageMiddleware: Middleware =
 		localStorage.setItem("__redux__auth__", JSON.stringify(store.getState()));
 	};
 
-const putDatabaseMiddleware: Middleware = (store) => (next) => (action) => {
+const putDatabaseMiddleware: Middleware = (_store) => (next) => (action) => {
 	next(action);
 
 	if ((action as PayloadAction<{ id: string }>).type === "user/editUserById") {
@@ -31,7 +31,7 @@ const putDatabaseMiddleware: Middleware = (store) => (next) => (action) => {
 	}
 };
 
-const postDatabaseMiddleware: Middleware = (store) => (next) => (action) => {
+const postDatabaseMiddleware: Middleware = (_store) => (next) => (action) => {
 	next(action);
 
 	if ((action as PayloadAction<{ email: string }>).type === "user/addNewUser") {
@@ -55,7 +55,7 @@ const postDatabaseMiddleware: Middleware = (store) => (next) => (action) => {
 	}
 };
 
-const syncWithDatabase: Middleware = (store) => (next) => (action) => {
+const syncWithDatabase: Middleware = (_store) => (next) => (action) => {
 	next(action);
 
 	if (

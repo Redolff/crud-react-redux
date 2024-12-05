@@ -23,7 +23,7 @@ export default function Login() {
 		const formData = new FormData(form);
 
 		const email = formData.get("email") as string;
-		const password = formData.get("password");
+		const password = formData.get("password") as string;
 		const existingUser = users.find(
 			(user) => user.email === email && user.password === password,
 		);
