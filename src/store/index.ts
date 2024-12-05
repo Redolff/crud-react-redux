@@ -56,8 +56,6 @@ const postDatabaseMiddleware: Middleware = (store) => (next) => (action) => {
 };
 
 const syncWithDatabase: Middleware = (store) => (next) => (action) => {
-	const previousState = store.getState();
-
 	next(action);
 
 	if (

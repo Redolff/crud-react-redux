@@ -23,6 +23,7 @@ export const UserProfileLink = () => {
 					</Link>
 				</div>
 			</div>
+			{/* rome-ignore lint/a11y/useButtonType: <explanation> */}
 			<button className="navbar-button login" onClick={logoutUser}>
 				Cerrar sesion
 			</button>

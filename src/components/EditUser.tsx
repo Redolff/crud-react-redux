@@ -25,9 +25,9 @@ export const EditUser = () => {
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
 
-		const name = formData.get("name");
+		const name = formData.get("name") as string;
 		const email = formData.get("email") as string;
-		const github = formData.get("github");
+		const github = formData.get("github") as string;
 
 		//Validaciones para el form
 		const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
