@@ -11,8 +11,8 @@ export const useAuthUsers = () => {
 		dispatch(login({ email, password }));
 	};
 
-	const registerUser = ({ name, email, password, repeatPassword }) => {
-		dispatch(register({ name, email, password, repeatPassword }));
+	const registerUser = ({ name, email, password, github, repeatPassword }) => {
+		dispatch(register({ name, email, password, github, repeatPassword }));
 	};
 
 	const logoutUser = () => {

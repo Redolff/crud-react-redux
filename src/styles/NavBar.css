@@ -17,6 +17,17 @@
 .navbar-logo {
     font-size: 24px;
     color: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.navbar-logo .img-logo {
+    align-items: center;
+    place-items: center;
+    width: 100px;
+    height: 70px;
 }
 
 .navbar-search {

@@ -1,6 +1,6 @@
 import { Badge, Button, Divider, TextInput } from "@tremor/react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthUsers } from "../hooks/useAuthUsers";
 
 export const Register = () => {
@@ -16,6 +16,7 @@ export const Register = () => {
 
 		const name = formData.get("name");
 		const email = formData.get("email");
+		const github = formData.get("github");
 		const password = formData.get("password");
 		const repeatPassword = formData.get("repeatPassword");
 
@@ -30,6 +31,10 @@ export const Register = () => {
 			setError("El email es invalido");
 			return;
 		}
+		if (!github) {
+			setError("El github es invalido");
+			return;
+		}
 		if (password !== repeatPassword) {
 			setError("Las contraseñas no coinciden");
 			return;
@@ -41,7 +46,7 @@ export const Register = () => {
 
 		if (!existingUser) {
 			console.log("Usuario creado");
-			registerUser({ name, email, password, repeatPassword });
+			registerUser({ name, email, github, password, repeatPassword });
 			navigate("/");
 		}
 	};
@@ -90,6 +95,15 @@ export const Register = () => {
 							placeholder="john@company.com"
 							className="mt-2"
 						/>
+					</div>
+					<div>
+						<label
+							htmlFor="github"
+							className="text-tremor-default font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong"
+						>
+							Github
+						</label>
+						<TextInput name="github" placeholder="github" className="mt-2" />
 					</div>
 					<div>
 						<label
@@ -142,12 +156,12 @@ export const Register = () => {
 				</form>
 				<Divider>
 					¿Ya tienes cuenta?
-					<a
+					<Link
 						style={{ marginLeft: "3px", textDecoration: "underline" }}
-						href={"/login"}
+						to={"/login"}
 					>
 						Sig In
-					</a>
+					</Link>
 				</Divider>
 			</div>
 		</div>

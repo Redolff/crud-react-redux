@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useAuthUsers } from "../hooks/useAuthUsers";
 import "../styles/PerfilAccount.css";
 
@@ -8,14 +9,14 @@ export const PerfilAccount = () => {
 		<div className="profile-container">
 			<img
 				className="profile-picture"
-				src={`https://unavatar.io/github/${currentUser?.name}`}
+				src={`https://unavatar.io/github/${currentUser.github}`}
 				alt={"Github profile"}
 			/>
 			<h1 className="profile-name"> {currentUser?.name} </h1>
 			<p className="profile-email"> {currentUser?.email} </p>
-			<a href="/" className="profile-link">
+			<Link to="/" className="profile-link">
 				Volver al home
-			</a>
+			</Link>
 		</div>
 	);
 };

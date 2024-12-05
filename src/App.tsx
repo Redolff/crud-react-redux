@@ -10,9 +10,7 @@ import { Register } from "./components/Register";
 import { useAuthUsers } from "./hooks/useAuthUsers";
 
 function App() {
-	const { users, isAuthenticated } = useAuthUsers();
-
-	console.log("users", { users });
+	const { isAuthenticated } = useAuthUsers();
 
 	return (
 		<>

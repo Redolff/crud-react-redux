@@ -1,6 +1,6 @@
 import { Badge, Button, Divider, TextInput } from "@tremor/react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthUsers } from "../hooks/useAuthUsers";
 
 const GoogleIcon = (props) => (
@@ -40,7 +40,6 @@ export default function Login() {
 			return;
 		}
 
-		console.log("Sesion iniciada");
 		loginUser({ email, password });
 		navigate("/");
 	};
@@ -128,12 +127,12 @@ export default function Login() {
 				</a>
 				<Divider>
 					¿No tienes cuenta?
-					<a
+					<Link
 						style={{ marginLeft: "3px", textDecoration: "underline" }}
-						href={"/register"}
+						to={"/register"}
 					>
 						Create account
-					</a>
+					</Link>
 				</Divider>
 			</div>
 		</div>

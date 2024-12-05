@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import logoReact from "../assets/logo-react.png";
 import { useAuthUsers } from "../hooks/useAuthUsers";
 import { useSearch } from "../hooks/useSearch";
 import "../styles/NavBar.css";
@@ -12,9 +14,9 @@ export const NavBar = (/*{ search, setSearch }*/) => {
 		<nav className="navbar">
 			<div className="navbar-logo">
 				<h1>
-					<a href="/"> Crud React Redux </a>
+					<Link to="/"> Crud React Redux </Link>
 				</h1>
-				<span> Logo CRUD </span>
+				<img className="img-logo" src={logoReact} alt="logo-react" />
 			</div>
 			<div className="navbar-search">
 				<input

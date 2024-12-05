@@ -14,7 +14,6 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
-import { useAppSelector } from "../hooks/store";
 import { useAuthUsers } from "../hooks/useAuthUsers";
 import { usePagination } from "../hooks/usePagination";
 import { useSearch } from "../hooks/useSearch";
@@ -25,8 +24,7 @@ import { CreateNewUser } from "./CreateNewUser";
 export const ListOfUsers = () => {
 	const navigate = useNavigate();
 	const { currentUser } = useAuthUsers();
-	const users = useAppSelector((state) => state.users);
-	const { removeUser } = useUsersActions();
+	const { users, removeUser } = useUsersActions();
 	const [error, setError] = useState<string | null>(null);
 	const { filteredUsers } = useSearch();
 	const {

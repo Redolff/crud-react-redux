@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useAuthUsers } from "../hooks/useAuthUsers";
 import "../styles/UserProfileLink.css";
 
@@ -8,7 +9,7 @@ export const UserProfileLink = () => {
 		<>
 			<div className="dropdown-item">
 				<div className="navbar-link-perfil">
-					<a href="/perfil">
+					<Link to="/perfil">
 						<img
 							style={{
 								width: "32px",
@@ -16,10 +17,10 @@ export const UserProfileLink = () => {
 								borderRadius: "50%",
 								cursor: "pointer",
 							}}
-							src={`https://unavatar.io/github/${currentUser?.name}`}
+							src={`https://unavatar.io/github/${currentUser?.github}`}
 							alt={`${currentUser?.name}`}
 						/>
-					</a>
+					</Link>
 				</div>
 			</div>
 			<button className="navbar-button login" onClick={logoutUser}>

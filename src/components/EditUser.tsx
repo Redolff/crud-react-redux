@@ -1,13 +1,12 @@
 import { Badge, Button, Card, TextInput, Title } from "@tremor/react";
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useAppSelector } from "../hooks/store";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useUsersActions } from "../hooks/useUsersActions";
 
 export const EditUser = () => {
 	const navigate = useNavigate();
 	const { id } = useParams();
-	const users = useAppSelector((state) => state.users);
+	const { users, editUser } = useUsersActions();
 	const usuarioId = users.find((user) => user.id === id);
 
 	const [values, setValues] = useState({
@@ -17,8 +16,6 @@ export const EditUser = () => {
 		github: usuarioId?.github,
 	});
 	const [error, setError] = useState<string | null>(null);
-
-	const { editUser } = useUsersActions();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -95,15 +92,15 @@ export const EditUser = () => {
 				</div>
 			</form>
 			<div>
-				<a
+				<Link
 					style={{
 						marginTop: "16px",
 						textDecoration: "underline",
 					}}
-					href="/"
+					to="/"
 				>
 					Volver al home
-				</a>
+				</Link>
 			</div>
 		</Card>
 	);
