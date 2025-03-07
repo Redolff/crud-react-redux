@@ -8,3 +8,5 @@ USUARIO PARA INICIAR SESION:
 
 Gmail: redolfofederico@gmail.com
 Contraseña: 123456
+
+Proyecto deployado: https://profilehub-one.vercel.app/login
