@@ -25,8 +25,7 @@ export const googleProvider = new GoogleAuthProvider();
 export const signInWithGoogle = async (): Promise<UserCredential | null> => {
 	try {
 		const result: UserCredential = await signInWithPopup(auth, googleProvider);
-		const user: UserCredential = result.user;
-		return user;
+		return result;
 	} catch (error) {
 		console.error("Error al iniciar sesion con Google", error);
 		return null;

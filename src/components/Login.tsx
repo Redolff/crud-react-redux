@@ -20,10 +20,12 @@ export default function Login() {
 	const handleGoogleLogin = async () => {
 		try {
 			const user = await signInWithGoogle();
-			if (user) {
+			const userGoogle = user?.user;
+
+			if (userGoogle) {
+				const { email } = userGoogle;
 				// Si el inicio de sesión es exitoso, puedes redirigir a la página de inicio
-				console.log("user: ", user);
-				loginGoogleUser({ email: user.email });
+				loginGoogleUser(email);
 				navigate("/");
 			} else {
 				setError("Error al iniciar sesión con Google.");

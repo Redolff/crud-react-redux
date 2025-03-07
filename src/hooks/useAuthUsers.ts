@@ -19,8 +19,9 @@ export const useAuthUsers = () => {
 		dispatch(login({ email, password }));
 	};
 
-	const loginGoogleUser = ({ email }: Props) => {
-		dispatch(loginGoogle({ email }));
+	// rome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const loginGoogleUser = ({ email }: string | null | any) => {
+		dispatch(loginGoogle(email));
 	};
 
 	const registerUser = ({
