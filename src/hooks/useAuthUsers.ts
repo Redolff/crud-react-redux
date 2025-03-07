@@ -1,4 +1,4 @@
-import { login, logout, register } from "../store/auth/authSlice";
+import { login, loginGoogle, logout, register } from "../store/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "./store";
 
 interface Props {
@@ -17,6 +17,10 @@ export const useAuthUsers = () => {
 
 	const loginUser = ({ email, password }: Props) => {
 		dispatch(login({ email, password }));
+	};
+
+	const loginGoogleUser = ({ email }: Props) => {
+		dispatch(loginGoogle({ email }));
 	};
 
 	const registerUser = ({
@@ -38,6 +42,7 @@ export const useAuthUsers = () => {
 		currentUser,
 		isAuthenticated,
 		loginUser,
+		loginGoogleUser,
 		logoutUser,
 		registerUser,
 	};

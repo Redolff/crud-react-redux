@@ -1,6 +1,7 @@
 import { Badge, Button, Divider, TextInput } from "@tremor/react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { signInWithGoogle } from "../firebase";
 import { useAuthUsers } from "../hooks/useAuthUsers";
 
 // rome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -13,8 +14,24 @@ const GoogleIcon = (props: Record<string, any>) => (
 
 export default function Login() {
 	const navigate = useNavigate();
-	const { users, loginUser } = useAuthUsers();
+	const { users, loginUser, loginGoogleUser } = useAuthUsers();
 	const [error, setError] = useState<string | null>(null);
+
+	const handleGoogleLogin = async () => {
+		try {
+			const user = await signInWithGoogle();
+			if (user) {
+				// Si el inicio de sesión es exitoso, puedes redirigir a la página de inicio
+				console.log("user: ", user);
+				loginGoogleUser({ email: user.email });
+				navigate("/");
+			} else {
+				setError("Error al iniciar sesión con Google.");
+			}
+		} catch (error) {
+			setError("Error al iniciar sesión con Google.");
+		}
+	};
 
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
@@ -118,15 +135,18 @@ export default function Login() {
 					</span>
 				</form>
 				<Divider>or with</Divider>
-				<a
-					href={"/"}
-					className="mt-4 w-full inline-flex items-center justify-center whitespace-nowrap rounded-md border px-3 py-2 text-center text-sm font-medium shadow-sm transition-all duration-100 ease-in-out disabled:pointer-events-none disabled:shadow-none outline outline-offset-2 outline-0 focus-visible:outline-2 outline-blue-500 dark:outline-blue-500 border-transparent text-white dark:text-white bg-blue-500 dark:bg-blue-500 hover:bg-blue-600 dark:hover:bg-blue-600 disabled:bg-blue-300 disabled:text-white disabled:dark:bg-blue-800 disabled:dark:text-blue-400 ewg5g mfup0"
+				<Button
+					onClick={handleGoogleLogin}
+					className="w-full inline-flex items-center justify-center whitespace-nowrap rounded-md border px-3 py-2 text-center text-sm font-medium shadow-sm transition-all duration-100 ease-in-out disabled:pointer-events-none disabled:shadow-none outline outline-offset-2 outline-0 focus-visible:outline-2 outline-blue-500 dark:outline-blue-500 border-transparent text-white dark:text-white bg-blue-500 dark:bg-blue-500 hover:bg-blue-600 dark:hover:bg-blue-600 disabled:bg-blue-300 disabled:text-white disabled:dark:bg-blue-800 disabled:dark:text-blue-400 ewg5g mfup0"
 				>
-					<GoogleIcon className="size-5" aria-hidden={true} />
+					<GoogleIcon
+						className="size-5 items-center justify-center w-full	"
+						aria-hidden={true}
+					/>
 					<span className="text-tremor-default font-medium">
 						Sign in with Google
 					</span>
-				</a>
+				</Button>
 				<Divider>
 					¿No tienes cuenta?
 					<Link

@@ -69,6 +69,11 @@ export const authSlice = createSlice({
 			}
 			localStorage.setItem("__redux__auth__", JSON.stringify(state));
 		},
+		loginGoogle: (state, action) => {
+			state.isAuthenticated = true;
+			state.currentUser = action.payload; // Asumiendo que el payload es el usuario autenticado
+			localStorage.setItem("__redux__auth__", JSON.stringify(state));
+		},
 		logout: (state) => {
 			state.currentUser = null;
 			state.isAuthenticated = false;
@@ -126,4 +131,4 @@ export const authSlice = createSlice({
 
 export default authSlice.reducer;
 
-export const { login, logout, register } = authSlice.actions;
+export const { login, loginGoogle, logout, register } = authSlice.actions;
