@@ -41,9 +41,7 @@ export const ListOfUsers = () => {
 		if (currentUser?.role === "admin") {
 			navigate(`/user/${id}`);
 		} else {
-			setError(
-				"El usuario no puede acceder a editar a un user porque no es ADMIN",
-			);
+			setError("No puedes acceder porque no eres ADMIN");
 			return;
 		}
 	};
@@ -52,7 +50,7 @@ export const ListOfUsers = () => {
 		if (currentUser?.role === "admin") {
 			removeUser(id);
 		} else {
-			setError("El usuario no puede eliminar a un user porque no es ADMIN");
+			setError("No puedes acceder porque no eres ADMIN");
 			return;
 		}
 	};
@@ -62,23 +60,25 @@ export const ListOfUsers = () => {
 			<Card
 				style={{
 					backgroundColor: "#fff",
-					marginTop: "16px",
+					marginTop: "64px",
 					border: "solid 1px #eee",
 					boxShadow: "3px 3px 3px 3px rgb(0,0,0,0.9)",
 				}}
 			>
-				<Title>
+				<Title style={{ marginBottom: "8px" }}>
 					Usuarios
 					<Badge style={{ marginLeft: "8px" }}> {users.length} </Badge>
 				</Title>
 				<Table>
-					<TableHead>
+					<TableHead
+						style={{ background: "black", color: "white", borderRadius: "9px" }}
+					>
 						<TableRow>
-							<TableHeaderCell>Id</TableHeaderCell>
-							<TableHeaderCell>Name</TableHeaderCell>
-							<TableHeaderCell>Email</TableHeaderCell>
-							<TableHeaderCell>Github</TableHeaderCell>
-							<TableHeaderCell>Acciones</TableHeaderCell>
+							<TableHeaderCell>ID</TableHeaderCell>
+							<TableHeaderCell>NAME</TableHeaderCell>
+							<TableHeaderCell>EMAIL</TableHeaderCell>
+							<TableHeaderCell>GITHUB</TableHeaderCell>
+							<TableHeaderCell>ACCIONES</TableHeaderCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>

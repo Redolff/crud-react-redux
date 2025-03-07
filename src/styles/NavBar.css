@@ -1,17 +1,22 @@
 .navbar {
+    position: fixed;
+    /* Fijo en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    /* Ocupar todo el ancho */
+    height: 70px;
+    /* Ajuste de altura */
+    background: #FFFFFF;
+    /* Blanco puro */
+    color: #2C3E50;
+    /* Texto oscuro */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.1);
-    /* Fondo transparente */
-    padding: 10px 20px;
-    color: white;
+    padding: 0 2rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    /* Sombra suave */
-    backdrop-filter: blur(10px);
-    /* Desenfoque de fondo */
-    border-radius: 8px;
-    /* Bordes redondeados */
+    z-index: 100;
 }
 
 .navbar-logo {
@@ -31,63 +36,83 @@
 }
 
 .navbar-search {
+    flex: 1;
+    /* Ocupa el espacio disponible */
     display: flex;
+    justify-content: center;
     align-items: center;
 }
 
 .navbar-search input {
-    padding: 5px 10px;
-    font-size: 16px;
-    border-radius: 4px;
+    width: 250px;
+    padding: 8px;
+    border-radius: 20px;
     border: none;
     outline: none;
-    color: #000000;
+    margin-right: 10px;
+    background: #2C3E50;
+    color: white;
 }
 
 .navbar-search button {
-    padding: 5px 15px;
-    margin-left: 10px;
-    background-color: #4CAF50;
+    background: #3498DB;
+    /* Azul neón */
     color: white;
+    border-radius: 5px;
+    padding: 8px 12px;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
+    transition: background 0.3s ease-in-out;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-search button:hover {
-    background-color: #45a049;
+    background: linear-gradient(135deg, #3498DB, #2C81BA);
+    /* Azul medio */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-menu {
     display: flex;
     align-items: center;
+    gap: 15px;
 }
 
 .navbar-button {
-    padding: 10px 15px;
+    padding: 10px 18px;
     margin-right: 10px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-
 .login {
-    background-color: #2196F3;
+    background: linear-gradient(135deg, #3498DB, #2980B9);
+    /* Azul neón */
     color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .login:hover {
-    background-color: #0b7dda;
+    background: linear-gradient(135deg, #2980B9, #1F6692);
+    /* Azul más oscuro */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .register {
-    background-color: #FF9800;
+    background: linear-gradient(135deg, #5DADE2, #3498DB);
+    /* Azul más claro */
     color: white;
 }
 
 .register:hover {
-    background-color: #fb8c00;
+    background: linear-gradient(135deg, #3498DB, #2C81BA);
+    /* Azul medio */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }

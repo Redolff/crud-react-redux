@@ -14,7 +14,7 @@ export const NavBar = (/*{ search, setSearch }*/) => {
 		<nav className="navbar">
 			<div className="navbar-logo">
 				<h1>
-					<Link to="/"> Crud React Redux </Link>
+					<Link to="/"> ProfileHub </Link>
 				</h1>
 				<img className="img-logo" src={logoReact} alt="logo-react" />
 			</div>

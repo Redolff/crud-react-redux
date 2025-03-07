@@ -9,6 +9,8 @@
     font-weight: 100 900;
 }
 
+/* Fondo con degradado moderno */
 body {
-    background-color: #5D6D7E;
+    background: linear-gradient(135deg, #2C3E50, #4A69BD);
+    color: black;
 }

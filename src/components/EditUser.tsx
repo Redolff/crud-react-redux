@@ -54,7 +54,7 @@ export const EditUser = () => {
 		<Card
 			style={{
 				backgroundColor: "#fff",
-				marginTop: "16px",
+				marginTop: "62px",
 				border: "solid 1px #eee",
 				boxShadow: "3px 3px 3px 3px rgb(0,0,0,0.9)",
 			}}
