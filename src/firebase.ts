@@ -1,4 +1,3 @@
-import { Analytics, getAnalytics } from "firebase/analytics";
 import { FirebaseApp, initializeApp } from "firebase/app";
 import {
 	Auth,
@@ -9,25 +8,24 @@ import {
 } from "firebase/auth";
 
 const firebaseConfig = {
-	apiKey: "AIzaSyAO9babt5e3wd9GuH0G3S12wZcAL1tXB0Q",
-	authDomain: "profilehub-b3d51.firebaseapp.com",
-	projectId: "profilehub-b3d51",
-	storageBucket: "profilehub-b3d51.firebasestorage.app", // ✅ Corrección en storageBucket
-	messagingSenderId: "635559310331",
-	appId: "1:635559310331:web:e7eafe618c792d973f515e",
-	measurementId: "G-N1NPQP4X1L",
+	apiKey: import.meta.env.VITE_API_KEY_GOOGLE,
+	authDomain: import.meta.env.VITE_AUTH_DOMAIN_GOOGLE,
+	projectId: import.meta.env.VITE_PROJECT_ID_GOOGLE,
+	storageBucket: import.meta.env.VITE_STORAGE_BUCKET_GOOGLE, // ✅ Corrección en storageBucket
+	messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID_GOOGLE,
+	appId: import.meta.env.VITE_APP_ID_GOOGLE,
+	measurementId: import.meta.env.VITE_MEASUREMENT_ID_GOOGLE,
 };
 
 // Inicializar Firebase
 const app: FirebaseApp = initializeApp(firebaseConfig);
-const analytics: Analytics = getAnalytics(app);
 export const auth: Auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 
 export const signInWithGoogle = async (): Promise<UserCredential | null> => {
 	try {
 		const result: UserCredential = await signInWithPopup(auth, googleProvider);
-		const user = result.user;
+		const user: UserCredential = result.user;
 		return user;
 	} catch (error) {
 		console.error("Error al iniciar sesion con Google", error);
